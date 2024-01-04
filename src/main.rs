@@ -13,7 +13,10 @@ fn main() {
     println!("검색어: {}", config.query);
     println!("대상 파일: {}", config.filename);
 
-    run(config);
+    if let Err(e) = run(config) {
+        println!("애플리케이션 에러: {}", e);
+        process::exit(1);
+    }
 }
 
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
