@@ -1,9 +1,13 @@
 use std::env;
 use std::fs;
+use std::process;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args);
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("인수를 구문분석하는 동안 오류가 발생했습니다: {}", err);
+        process::exit(1);
+    });
 
     println!("검색어: {}", config.query);
     println!("대상 파일: {}", config.filename);
