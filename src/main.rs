@@ -1,7 +1,7 @@
 use std::env;
-use std::error::Error;
-use std::fs;
 use std::process;
+
+use minigrep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -13,35 +13,9 @@ fn main() {
     println!("검색어: {}", config.query);
     println!("대상 파일: {}", config.filename);
 
-    if let Err(e) = run(config) {
+    if let Err(e) = minigrep::run(config) {
         println!("애플리케이션 에러: {}", e);
         process::exit(1);
-    }
-}
-
-fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.filename)?;
-
-    println!("파일 내용:\n{}", contents);
-
-    Ok(())
-}
-
-struct Config {
-    query: String,
-    filename: String,
-}
-
-impl Config {
-    fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("필요한 인수가 지정되지 않았습니다.");
-        }
-
-        let query = args[1].clone();
-        let filename = args[2].clone();
-
-        Ok(Self { query, filename })
     }
 }
 
