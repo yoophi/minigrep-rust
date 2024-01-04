@@ -20,15 +20,15 @@ struct Config {
 }
 
 impl Config {
-    fn new(args: &[String]) -> Self {
+    fn new(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
-            panic!("필요한 인수가 지정되지 않았습니다.")
+            return Err("필요한 인수가 지정되지 않았습니다.");
         }
 
         let query = args[1].clone();
         let filename = args[2].clone();
 
-        Self { query, filename }
+        Ok(Self { query, filename })
     }
 }
 
