@@ -12,6 +12,10 @@ fn main() {
     println!("검색어: {}", config.query);
     println!("대상 파일: {}", config.filename);
 
+    run(config);
+}
+
+fn run(config: Config) {
     let contents = fs::read_to_string(config.filename)
         .expect("파일을 읽지 못했습니다.");
 
