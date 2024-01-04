@@ -28,7 +28,15 @@ impl Config {
 }
 
 fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    vec![]
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
 }
 
 #[cfg(test)]
@@ -37,14 +45,14 @@ mod test {
 
     #[test]
     fn one_result() {
-        let query = "duck";
+        let query = "duct";
         let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.";
 
         assert_eq!(
-            vec!["safe fast, productive."],
+            vec!["safe, fast, productive."],
             search(query, contents)
         );
     }
